@@ -1,0 +1,64 @@
+<%- include('partials/header') %>
+
+<% if(success && success.length > 0) { %> 
+    <div class="absolute top-5 left-1/2 -translate-x-1/2 -translate-y-1/2 p-3 rounded-md bg-blue-500">
+        <span class="inline-block mt-1 mb-1 text-white">
+            <%= success %>
+        </span>
+    </div>
+<% } %>
+
+<div class="w-full h-screen flex items-start px-16 py-20"> 
+    <div class="w-[25%] h-screen flex flex-col items-start">
+        
+        <div class="flex items-center gap-2">
+            <h3>Sort by</h3>
+            <form action="/shop" method="GET">
+                <select class="border px-2 py-1" name="sortby">
+                    <option value="popular" >Popular</option>
+                    <option value="newest" >Newest</option>
+                </select>
+                <button type="submit" class="ml-2 px-4 py-1 bg-blue-500 text-white rounded">Sort</button>
+            </form>                     
+        </div>
+
+       
+        <div class="flex flex-col mt-10">
+            <a class="block w-fit mb-4" href="/newcollection">New Collection</a> 
+            <a class="block w-fit mb-4" href="/allproducts">All Products</a> 
+            <a class="block w-fit mb-4" href="/discountedproducts">Discounted Products</a> 
+        </div>
+
+      
+        <div class="mt-16">
+            <a class="block w-fit mb-4" href="#">Filter by:</a>
+            <a class="block w-fit mb-4" href="/availability">Availability</a>
+            <a class="block w-fit mb-4" href="/discountedproducts">Discount</a>
+            <a class="block w-fit mb-4" href="/shop/popular">Reset Filters</a>
+        </div>
+    </div>
+
+   
+    <div class="w-[75%] flex flex-col gap-8 h-screen overflow-auto justify-start"> 
+        <div class="flex flex-wrap gap-8 justify-start"> 
+            <% products.forEach(function(product) { %>
+                <div class="w-64"> 
+                    <div class="w-full h-52 flex items-center justify-center bg-[<%= product.bgcolor || 'gray' %>]">
+                        <img class="h-48" src="data:image/jpeg;base64,<%= product.image.toString('base64') %>" alt="Product Image">
+                    </div>
+                    <div class="flex justify-between bg-[<%= product.panelcolor || 'white' %>] items-center px-4 py-4 text-[<%= product.textcolor || 'black' %>]"> 
+                        <div>
+                            <h3><%= product.name %></h3>
+                            <h4>₹ <%= product.price %></h4>
+                        </div>
+                        <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="/addtocart/<%= product._id %>">
+                            <i class="ri-add-line"></i>
+                        </a>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>
